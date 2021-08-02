@@ -1,0 +1,116 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Weapon1Controller : MonoBehaviour
+{
+    public GameObject[] LevelObjects;
+    public GameObject RotatePart;
+    public List<GameObject> Targets;
+    public GameObject Target;
+
+    [Header("Properties")]
+    public int currentLevel;
+    public bool shootActivate;
+    public int strength;
+    public float shootRate;
+
+    [Header("Attack Range")]
+    public int attackRange;
+    public GameObject attackRangeObject;
+
+
+    void Start()
+    {
+        attackRangeObject.transform.localScale = new Vector3(attackRange, 1, attackRange);
+        WeaponInitial(currentLevel);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+        GetAllTargetsInRange();
+        CheckWeaponActivating();
+        GetClosetTarget();
+    }
+
+    void WeaponInitial(int currentLevel) {
+        foreach (GameObject child in LevelObjects) {
+            child.gameObject.SetActive(false);
+        }
+        LevelObjects[currentLevel - 1].gameObject.SetActive(true);
+    }
+
+    void GetAllTargetsInRange() {
+        if (GameObject.FindGameObjectsWithTag("Enemy").Length > 0)
+        {
+            foreach (GameObject child in GameObject.FindGameObjectsWithTag("Enemy"))
+            {
+                if (Vector3.Distance(child.transform.position, transform.position) < attackRange)
+                {
+                    if (!Targets.Contains(child))
+                    {
+                        Targets.Add(child);
+                    }
+                }
+                else
+                {
+                    if (Targets.Contains(child))
+                    {
+                        Targets.Remove(child);
+                    }
+                }
+            }
+        }
+        else {
+            Target = null;
+        }
+    }
+
+    void CheckWeaponActivating() {
+        if (Targets.Count == 0)
+        {
+            shootActivate = false;
+        }
+        else {
+            RotateToTarget();
+            shootActivate = true;
+        }
+    }
+
+    void GetClosetTarget() {
+        if (Targets.Count > 0) {
+            float closetDistance = Vector3.Distance(transform.position, Targets[0].transform.position);
+            for (int i = 0; i < Targets.Count; i++) {
+                float distance = Vector3.Distance(transform.position, Targets[i].transform.position);
+                if (distance <= closetDistance) {
+                    closetDistance = distance;
+                    Target = Targets[i];
+                }
+            }
+        }
+    }
+
+    void RotateToTarget() {
+        if (Target != null) {
+            RotatePart.transform.rotation = Quaternion.Slerp(RotatePart.transform.rotation, Quaternion.LookRotation((Target.transform.position - RotatePart.transform.position).normalized) , Time.deltaTime * 8f);
+        }
+        
+    }
+
+    public void setUpdateInformation() {
+        Debug.Log("Set Current");
+        FindObjectOfType<UpgradeController>().setCurrentInfor(Strength[currentLevel], Range[currentLevel], Reload[currentLevel]);
+        if (currentLevel < Strength.Length - 1) { 
+        FindObjectOfType<UpgradeController>().setCurrentInfor(Strength[currentLevel+1], Range[currentLevel+1], Reload[currentLevel+1]);
+        }
+    }
+
+    [Header("Level Properties")]
+    int currentLvl = 0;
+    int[] Level = new int[] {1, 1, 1, 1, 1, 2, 2, 2, 2 };
+    int[] Strength = new int[] {2, 3, 4, 5, 6, 7, 8, 9, 10};
+    int[] Range = new int[] {5, 5, 6, 6, 7, 7, 8, 8, 9 };
+    float[] Reload = new float[] {0.5f, 0.45f, 0.4f, 0.35f, 0.3f, 0.25f, 0.2f, 0.15f, 0.1f};
+}

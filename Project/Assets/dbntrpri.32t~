@@ -1,0 +1,42 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class GameManager : MonoBehaviour
+{
+    public GameObject Selected;
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    public void setSelectedObject(GameObject newSelectedObject) {
+        Selected = newSelectedObject;
+
+        if (Selected.transform.tag == "Tower")
+        {
+            Selected.transform.GetComponent<Weapon1Controller>().attackRangeObject.SetActive(true);
+        }
+        else {
+            foreach (GameObject child in GameObject.FindGameObjectsWithTag("Tower")) { 
+                child.transform.GetComponent<Weapon1Controller>().attackRangeObject.SetActive(false);
+            }
+        }
+
+    }
+
+    [Header("Player Information")]
+    public int Coin;
+
+    public Text Coint_lbl;
+    void InformationLabelUpdate() {
+        Coint_lbl.text = "Coin: " +Coin;
+    }
+}

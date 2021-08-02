@@ -1,0 +1,36 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class EnemyProperties : MonoBehaviour
+{
+    int HP;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.transform.tag == "Bullet")
+        {
+            int bulletStrength = collision.gameObject.GetComponent<BulletProperties>().Strength;
+            DeductHP(bulletStrength);
+            Destroy(collision.gameObject);
+        }
+    }
+    void DeductHP(int _HP) {
+        HP -= _HP;
+
+        if (HP <= 0) {
+            Destroy(this.gameObject);
+        }
+    }
+}

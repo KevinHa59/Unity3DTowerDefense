@@ -1,0 +1,98 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Weapon1Controller : MonoBehaviour
+{
+    public GameObject[] LevelObjects;
+    public GameObject RotatePart;
+    public List<GameObject> Targets;
+    public GameObject Target;
+
+    [Header("Properties")]
+    public int currentLevel;
+    public bool shootActivate;
+
+    [Header("Attack Range")]
+    public int attackRange;
+
+
+    void Start()
+    {
+        
+        WeaponInitial(currentLevel);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+        GetAllTargetsInRange();
+        CheckWeaponActivating();
+        GetClosetTarget();
+    }
+
+    void WeaponInitial(int currentLevel) {
+        foreach (GameObject child in LevelObjects) {
+            child.gameObject.SetActive(false);
+        }
+        LevelObjects[currentLevel - 1].gameObject.SetActive(true);
+    }
+
+    void GetAllTargetsInRange() {
+        if (GameObject.FindGameObjectsWithTag("Enemy").Length > 0)
+        {
+            foreach (GameObject child in GameObject.FindGameObjectsWithTag("Enemy"))
+            {
+                if (Vector3.Distance(child.transform.position, transform.position) < attackRange)
+                {
+                    if (!Targets.Contains(child))
+                    {
+                        Targets.Add(child);
+                    }
+                }
+                else
+                {
+                    if (Targets.Contains(child))
+                    {
+                        Targets.Remove(child);
+                    }
+                }
+            }
+        }
+        else {
+            Target = null;
+        }
+    }
+
+    void CheckWeaponActivating() {
+        if (Targets.Count == 0)
+        {
+            shootActivate = false;
+        }
+        else {
+            RotateToTarget();
+            shootActivate = true;
+        }
+    }
+
+    void GetClosetTarget() {
+        if (Targets.Count > 0) {
+            float closetDistance = Vector3.Distance(transform.position, Targets[0].transform.position);
+            for (int i = 0; i < Targets.Count; i++) {
+                float distance = Vector3.Distance(transform.position, Targets[i].transform.position);
+                if (distance <= closetDistance) {
+                    closetDistance = distance;
+                    Target = Targets[i];
+                }
+            }
+        }
+    }
+
+    void RotateToTarget() {
+        if (Target != null) {
+            RotatePart.transform.rotation = Quaternion.Slerp(RotatePart.transform.rotation, Quaternion.LookRotation((Target.transform.position - RotatePart.transform.position).normalized) , Time.deltaTime * 8f);
+        }
+        
+    }
+}

@@ -1,0 +1,60 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class GameManager : MonoBehaviour
+{
+    public GameObject Selected;
+    public GameObject UpgradePanel;
+    void Start()
+    {
+        InformationLabelUpdate();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    public void setSelectedObject(GameObject newSelectedObject) {
+        Selected = newSelectedObject;
+        foreach (GameObject child in GameObject.FindGameObjectsWithTag("Tower"))
+        {
+            child.transform.GetComponent<Weapon1Controller>().attackRangeObject.SetActive(false);
+        }
+
+        if (Selected.transform.tag == "Tower")
+        {
+            
+            Selected.transform.GetComponent<Weapon1Controller>().attackRangeObject.SetActive(true);
+            Selected.transform.GetComponent<Weapon1Controller>().setCurrent();
+            UpgradePanel.GetComponent<Animator>().Play("UpgradePanel");
+            
+        }
+        else {
+
+            UpgradePanel.GetComponent<Animator>().Play("UpgradePanelHide");
+        }
+
+    }
+
+    [Header("Player Information")]
+    public int Cash;
+
+    public Text Cash_lbl;
+    void InformationLabelUpdate() {
+        Cash_lbl.text = "Cash: " + Cash;
+    }
+
+    public void Cash_Use(int cash) {
+        Cash -= cash;
+        InformationLabelUpdate();
+    }
+    public void Cash_Add(int cash)
+    {
+        Cash += cash;
+        InformationLabelUpdate();
+    }
+}
