@@ -15,7 +15,7 @@ A small Tower Defense Game which is created by Unity 3D and C# language
   
   
   <p align="center">***************************** <b>Levels</b> *****************************</p>
- <p>
+ <p align="center">
   <img src="images/Lv1Thumb.png" width= "300">
   <img src="images/Lv2Thumb.png" width= "300">
   <img src="images/Lv3Thumb.png" width= "300">
