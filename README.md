@@ -16,20 +16,14 @@ A small Tower Defense Game which is created by Unity 3D and C# language
   
   <p align="center">***************************** <b>Levels</b> *****************************</p>
  <p>
-  <b>* Level 1</b>
-  <img src="images/Lv1Thumb.png" width= "400">
-  <b>* Level 2</b>
-  <img src="images/Lv2Thumb.png" width= "400">
+  <img src="images/Lv1Thumb.png" width= "300">
+  <img src="images/Lv2Thumb.png" width= "300">
  </p>
  <p>
-  <b>* Level 3</b>
-  <img src="images/Lv3Thumb.png" width= "400">
-  <b>* Level 4</b>
-  <img src="images/Lv4Thumb.png" width= "400">
+  <img src="images/Lv3Thumb.png" width= "300">
+  <img src="images/Lv4Thumb.png" width= "300">
 </p>
 <p>
-  <b>* Level 5</b>
-  <img src="images/Lv5Thumb.png" width= "400">
-  <b>* Level 6</b>
-  <img src="images/Lv6Thumb.png" width= "400">
+  <img src="images/Lv5Thumb.png" width= "300">
+  <img src="images/Lv6Thumb.png" width= "300">
  </p>
