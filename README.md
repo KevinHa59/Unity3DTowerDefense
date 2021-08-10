@@ -1,10 +1,8 @@
 # Unity3DTowerDefense
 A small Tower Defense Game which is created by Unity 3D and C# language
 
-<p align="center">
-  [Watch Demo on Youtube](https://www.youtube.com/watch?v=7tKRhQH4-fg "Youtube")
-</p>
 
+[Watch Demo on Youtube](https://www.youtube.com/watch?v=7tKRhQH4-fg)
 
 <p align="center">***************************** <b>Stages</b> *****************************</p>
   <p align="center"><b>>> Main Menu <<</b></p>
